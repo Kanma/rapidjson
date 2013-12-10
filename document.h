@@ -238,6 +238,7 @@ public:
 		}
 	}
 	const GenericValue& operator[](const Ch* name) const { return const_cast<GenericValue&>(*this)[name]; }
+    const GenericValue& GetMember(const Ch* name) const { return const_cast<GenericValue&>(*this)[name]; }
 
 	//! Member iterators.
 	ConstMemberIterator MemberBegin() const	{ RAPIDJSON_ASSERT(IsObject()); return data_.o.members; }

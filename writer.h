@@ -124,7 +124,7 @@ protected:
 		char buffer[10];
 		char *p = buffer;
 		do {
-			*p++ = (u % 10) + '0';
+			*p++ = char(u % 10) + '0';
 			u /= 10;
 		} while (u > 0);
 
@@ -185,7 +185,9 @@ protected:
 
 		stream_.Put('\"');
 		for (const Ch* p = str; p != str + length; ++p) {
-			if ((sizeof(Ch) == 1 || (*p & 0xFFFFFF00) == 0) && escape[(unsigned char)*p])  {
+		    int csize = sizeof(Ch);
+			unsigned pn = (unsigned)*p;
+			if ((pn < 256 || csize == 1) && escape[(unsigned char)*p])  {
 				stream_.Put('\\');
 				stream_.Put(escape[(unsigned char)*p]);
 				if (escape[(unsigned char)*p] == 'u') {
