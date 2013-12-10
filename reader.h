@@ -419,7 +419,9 @@ private:
 			Ch c = s.Take();
 			if (c == '\\') {	// Escape
 				Ch e = s.Take();
-				if ((sizeof(Ch) == 1 || (e & 0xFFFFFF00) == 0) && escape[(unsigned char)e])
+				int csize = sizeof(Ch);
+				unsigned en = (unsigned)e;
+				if ((en < 256 || csize == 1) && escape[(unsigned char)e])
 					RAPIDJSON_PUT(escape[(unsigned char)e]);
 				else if (e == 'u') {	// Unicode
 					unsigned codepoint = ParseHex4(s);

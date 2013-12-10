@@ -337,22 +337,22 @@ struct UTF8 {
 
 	static Ch* Encode(Ch *buffer, unsigned codepoint) {
 		if (codepoint <= 0x7F) 
-			*buffer++ = codepoint & 0xFF;
+			*buffer++ = static_cast<Ch>(codepoint & 0xFF);
 		else if (codepoint <= 0x7FF) {
-			*buffer++ = 0xC0 | ((codepoint >> 6) & 0xFF);
-			*buffer++ = 0x80 | ((codepoint & 0x3F));
+			*buffer++ = static_cast<Ch>(0xC0 | ((codepoint >> 6) & 0xFF));
+			*buffer++ = static_cast<Ch>(0x80 | (codepoint & 0x3F));
 		}
 		else if (codepoint <= 0xFFFF) {
-			*buffer++ = 0xE0 | ((codepoint >> 12) & 0xFF);
-			*buffer++ = 0x80 | ((codepoint >> 6) & 0x3F);
-			*buffer++ = 0x80 | (codepoint & 0x3F);
+			*buffer++ = static_cast<Ch>(0xE0 | ((codepoint >> 12) & 0xFF));
+			*buffer++ = static_cast<Ch>(0x80 | ((codepoint >> 6) & 0x3F));
+			*buffer++ = static_cast<Ch>(0x80 | (codepoint & 0x3F));
 		}
 		else {
 			RAPIDJSON_ASSERT(codepoint <= 0x10FFFF);
-			*buffer++ = 0xF0 | ((codepoint >> 18) & 0xFF);
-			*buffer++ = 0x80 | ((codepoint >> 12) & 0x3F);
-			*buffer++ = 0x80 | ((codepoint >> 6) & 0x3F);
-			*buffer++ = 0x80 | (codepoint & 0x3F);
+			*buffer++ = static_cast<Ch>(0xF0 | ((codepoint >> 18) & 0xFF));
+			*buffer++ = static_cast<Ch>(0x80 | ((codepoint >> 12) & 0x3F));
+			*buffer++ = static_cast<Ch>(0x80 | ((codepoint >> 6) & 0x3F));
+			*buffer++ = static_cast<Ch>(0x80 | (codepoint & 0x3F));
 		}
 		return buffer;
 	}
@@ -379,7 +379,7 @@ struct UTF16 {
 			RAPIDJSON_ASSERT(codepoint <= 0x10FFFF);
 			unsigned v = codepoint - 0x10000;
 			*buffer++ = static_cast<Ch>((v >> 10) + 0xD800);
-			*buffer++ = (v & 0x3FF) + 0xDC00;
+			*buffer++ = static_cast<Ch>((v & 0x3FF) + 0xDC00);
 		}
 		return buffer;
 	}
@@ -399,7 +399,7 @@ struct UTF32 {
 
 	static Ch *Encode(Ch* buffer, unsigned codepoint) {
 		RAPIDJSON_ASSERT(codepoint <= 0x10FFFF);
-		*buffer++ = codepoint;
+		*buffer++ = static_cast<Ch>(codepoint);
 		return buffer;
 	}
 };
