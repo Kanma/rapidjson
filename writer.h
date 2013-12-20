@@ -53,6 +53,11 @@ public:
 		return *this;
 	}
 
+  template <typename Str>
+  Writer& String(const Str& str, bool copy = false){
+    return String(str.c_str(), str.length());
+  }
+
 	Writer& StartObject() {
 		Prefix(kObjectType);
 		new (level_stack_.template Push<Level>()) Level(false);

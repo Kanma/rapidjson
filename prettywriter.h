@@ -55,6 +55,11 @@ public:
 		return *this;
 	}
 
+  template <typename Str>
+  PrettyWriter& String(const Str& str, bool copy = false){
+    return String(str.c_str(), str.length());
+  }
+
 	PrettyWriter& StartObject() {
 		PrettyPrefix(kObjectType);
 		new (Base::level_stack_.template Push<typename Base::Level>()) typename Base::Level(false);
