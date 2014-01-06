@@ -46,7 +46,7 @@ public:
 	PrettyWriter& Uint(unsigned u)		{ PrettyPrefix(kNumberType); Base::WriteUint(u);		return *this; }
 	PrettyWriter& Int64(int64_t i64)	{ PrettyPrefix(kNumberType); Base::WriteInt64(i64);		return *this; }
 	PrettyWriter& Uint64(uint64_t u64)	{ PrettyPrefix(kNumberType); Base::WriteUint64(u64);	return *this; }
-	PrettyWriter& Double(double d)		{ PrettyPrefix(kNumberType); Base::WriteDouble(d);		return *this; }
+	PrettyWriter& Double(double d, short precision=6)		{ PrettyPrefix(kNumberType); Base::WriteDouble(d, precision);		return *this; }
 
 	PrettyWriter& String(const Ch* str, SizeType length, bool copy = false) {
 		(void)copy;

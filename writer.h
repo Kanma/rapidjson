@@ -44,7 +44,7 @@ public:
 	Writer& Uint(unsigned u)		{ Prefix(kNumberType); WriteUint(u);		return *this; }
 	Writer& Int64(int64_t i64)		{ Prefix(kNumberType); WriteInt64(i64);		return *this; }
 	Writer& Uint64(uint64_t u64)	{ Prefix(kNumberType); WriteUint64(u64);	return *this; }
-	Writer& Double(double d)		{ Prefix(kNumberType); WriteDouble(d);		return *this; }
+	Writer& Double(double d, short precision=6)		{ Prefix(kNumberType); WriteDouble(d, precision);		return *this; }
 
 	Writer& String(const Ch* str, SizeType length, bool copy = false) {
 		(void)copy;
@@ -162,12 +162,12 @@ protected:
 	}
 
 	//! \todo Optimization with custom double-to-string converter.
-	void WriteDouble(double d) {
+	void WriteDouble(double d, short precision) {
 		char buffer[100];
 #if _MSC_VER
-		int ret = sprintf_s(buffer, sizeof(buffer), "%g", d);
+		int ret = sprintf_s(buffer, sizeof(buffer), "%.*g", precision, d);
 #else
-		int ret = snprintf(buffer, sizeof(buffer), "%g", d);
+		int ret = snprintf(buffer, sizeof(buffer), "%.*g", precision, d);
 #endif
 		RAPIDJSON_ASSERT(ret >= 1);
 		for (int i = 0; i < ret; i++)
